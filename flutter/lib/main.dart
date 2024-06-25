@@ -40,7 +40,11 @@ class MyApp extends StatelessWidget {
                 children: [
                   const Text('🕒'),
                   const SizedBox(width: 20),
-                  CupertinoDateTimePicker(),
+                  CupertinoDateTimePicker(
+                    onSelectionChanged: (value) {
+                      print(value);
+                    },
+                  ),
                 ],
               ),
             ],
@@ -51,10 +55,27 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class CupertinoDateTimePicker extends StatelessWidget {
+class CupertinoDateTimePicker extends StatefulWidget {
+  final Function(DateTime)? onSelectionChanged;
+
   const CupertinoDateTimePicker({
     super.key,
+    this.onSelectionChanged,
   });
+
+  @override
+  State<CupertinoDateTimePicker> createState() => _CupertinoDateTimePickerState();
+}
+
+class _CupertinoDateTimePickerState extends State<CupertinoDateTimePicker> {
+  int aValue = 0;
+  int bValue = 0;
+  int cValue = 0;
+
+  DateTime get selectedTime {
+    var date = DateTime.now();
+    return date.add(Duration(days: aValue, hours: bValue, minutes: cValue));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,9 +83,36 @@ class CupertinoDateTimePicker extends StatelessWidget {
       height: 50,
       child: CupertinoPickerLine(
         items: [
-          CupertinoPickerLineItem(width: 100, itemTextBuilder: (context, index) => 'A$index'),
-          CupertinoPickerLineItem(width: 80, itemTextBuilder: (context, index) => 'B$index'),
-          CupertinoPickerLineItem(width: 40, itemTextBuilder: (context, index) => 'C$index'),
+          CupertinoPickerLineItem(
+            width: 130, 
+            itemTextBuilder: (context, index) => DateTime.now().add(Duration(days: index)).day.toString(),
+            onSelectedIndexChanged: (p0) {
+              setState(() {
+                aValue = p0;
+                widget.onSelectionChanged?.call(selectedTime);
+              });
+            },
+          ),
+          CupertinoPickerLineItem(
+            width: 80, 
+            itemTextBuilder: (context, index) => DateTime.now().add(Duration(hours: index)).hour.toString(),
+            onSelectedIndexChanged: (p0) {
+              setState(() {
+                bValue = p0;
+                widget.onSelectionChanged?.call(selectedTime);
+              });
+            },
+          ),
+          CupertinoPickerLineItem(
+            width: 40, 
+            itemTextBuilder: (context, index) => DateTime.now().add(Duration(minutes: index)).minute.toString(),
+            onSelectedIndexChanged: (p0) {
+              setState(() {
+                cValue = p0;
+                widget.onSelectionChanged?.call(selectedTime);
+              });
+            },
+          ),
         ],
       ),
     );
@@ -75,11 +123,13 @@ class CupertinoPickerLineItem {
   final double width;
   final int initialItem;
   final String? Function(BuildContext, int) itemTextBuilder;
+  final Function(int)? onSelectedIndexChanged;
 
   const CupertinoPickerLineItem({
     this.width = 80,
     this.initialItem = 0,
     required this.itemTextBuilder,
+    this.onSelectedIndexChanged,
   });
 }
 
@@ -112,10 +162,8 @@ class CupertinoPickerLine extends StatelessWidget {
           width: item.width,
           child: CupertinoPicker.builder(
             itemExtent: itemExtent,
-            onSelectedItemChanged: (value) {
-              print(value);
-            },
-            scrollController: FixedExtentScrollController(initialItem: 2),
+            onSelectedItemChanged: item.onSelectedIndexChanged,
+            scrollController: FixedExtentScrollController(initialItem: 0),
             selectionOverlay: selectionOverlay,
             itemBuilder: (context, index) {
               var text = item.itemTextBuilder(context, index);
