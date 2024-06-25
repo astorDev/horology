@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:horology/cupertino.dart';
 
 void main() {
   runApp(const MyApp());
@@ -40,10 +41,20 @@ class MyApp extends StatelessWidget {
                 children: [
                   const Text('🕒'),
                   const SizedBox(width: 20),
-                  CupertinoDateTimePicker(
-                    onSelectionChanged: (value) {
-                      print(value);
-                    },
+                  SizedBox(
+                    height: 50,
+                    //width: 280,
+                    child: CupertinoDateTimePicker(
+                      onSelectionChanged: (value) {
+                        print(value);
+                      },
+                    ),
+                    // child: CupertinoDatePicker(
+                    //   mode: CupertinoDatePickerMode.dateAndTime,
+                    //   onDateTimeChanged: (value) {
+                    //     print(value);
+                    //   },
+                    // )
                   ),
                 ],
               ),
@@ -51,137 +62,6 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-    );
-  }
-}
-
-class CupertinoDateTimePicker extends StatefulWidget {
-  final Function(DateTime)? onSelectionChanged;
-
-  const CupertinoDateTimePicker({
-    super.key,
-    this.onSelectionChanged,
-  });
-
-  @override
-  State<CupertinoDateTimePicker> createState() => _CupertinoDateTimePickerState();
-}
-
-class _CupertinoDateTimePickerState extends State<CupertinoDateTimePicker> {
-  int aValue = 0;
-  int bValue = 0;
-  int cValue = 0;
-
-  DateTime get selectedTime {
-    var date = DateTime.now();
-    return date.add(Duration(days: aValue, hours: bValue, minutes: cValue));
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      height: 50,
-      child: CupertinoPickerLine(
-        items: [
-          CupertinoPickerLineItem(
-            width: 130, 
-            itemTextBuilder: (context, index) => DateTime.now().add(Duration(days: index)).day.toString(),
-            onSelectedIndexChanged: (p0) {
-              setState(() {
-                aValue = p0;
-                widget.onSelectionChanged?.call(selectedTime);
-              });
-            },
-          ),
-          CupertinoPickerLineItem(
-            width: 80, 
-            itemTextBuilder: (context, index) => DateTime.now().add(Duration(hours: index)).hour.toString(),
-            onSelectedIndexChanged: (p0) {
-              setState(() {
-                bValue = p0;
-                widget.onSelectionChanged?.call(selectedTime);
-              });
-            },
-          ),
-          CupertinoPickerLineItem(
-            width: 40, 
-            itemTextBuilder: (context, index) => DateTime.now().add(Duration(minutes: index)).minute.toString(),
-            onSelectedIndexChanged: (p0) {
-              setState(() {
-                cValue = p0;
-                widget.onSelectionChanged?.call(selectedTime);
-              });
-            },
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class CupertinoPickerLineItem {
-  final double width;
-  final int initialItem;
-  final String? Function(BuildContext, int) itemTextBuilder;
-  final Function(int)? onSelectedIndexChanged;
-
-  const CupertinoPickerLineItem({
-    this.width = 80,
-    this.initialItem = 0,
-    required this.itemTextBuilder,
-    this.onSelectedIndexChanged,
-  });
-}
-
-class CupertinoPickerLine extends StatelessWidget {
-  final double height;
-  final double itemExtent;
-  final List<CupertinoPickerLineItem> items;
-  
-  const CupertinoPickerLine({
-    super.key,
-    required this.items,
-    this.height = 50,
-    this.itemExtent = 30,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-
-    List<Widget> children = [];
-
-    for (int i = 0; i < items.length; i++) {
-      CupertinoPickerLineItem item = items[i];
-
-      Widget selectionOverlay = CupertinoPickerSelectionOverlay.inline();
-      if (i == 0) selectionOverlay = CupertinoPickerSelectionOverlay.inlineLeftSide();
-      if (i == items.length - 1) selectionOverlay = CupertinoPickerSelectionOverlay.inlineRightSide();
-
-      children.add(
-        SizedBox(
-          width: item.width,
-          child: CupertinoPicker.builder(
-            itemExtent: itemExtent,
-            onSelectedItemChanged: item.onSelectedIndexChanged,
-            scrollController: FixedExtentScrollController(initialItem: 0),
-            selectionOverlay: selectionOverlay,
-            itemBuilder: (context, index) {
-              var text = item.itemTextBuilder(context, index);
-
-              return text == null ? null : Center(
-                child: Text(
-                    text,
-                    style: const TextStyle(fontSize: 20),
-                  ),
-              );
-            }
-          ),
-        ),
-      );
-    }
-
-    return Row(
-      children: children,
     );
   }
 }
@@ -204,59 +84,4 @@ class TimePickerOriginal extends StatelessWidget {
       ),
     );
   }
-}
-
-class CupertinoPickerSelectionOverlay extends StatelessWidget {
-  final EdgeInsetsGeometry margin;
-  final BorderRadiusGeometry borderRadius;
-  final Color background;
-  static const double _defaultSelectionOverlayHorizontalMargin = 9;
-  static const double _defaultSelectionOverlayRadius = 8;
-  
-  const CupertinoPickerSelectionOverlay({
-    super.key,
-    this.background = CupertinoColors.tertiarySystemFill,
-    this.margin = const EdgeInsets.symmetric(horizontal: _defaultSelectionOverlayHorizontalMargin),
-    this.borderRadius = const BorderRadiusDirectional.horizontal(
-      start: Radius.circular(_defaultSelectionOverlayRadius),
-      end: Radius.circular(_defaultSelectionOverlayRadius),
-    ),
-  });  
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: margin,
-      decoration: BoxDecoration(
-        borderRadius: borderRadius,
-        color: CupertinoDynamicColor.resolve(background, context),
-      ),
-    );
-  }
-
-  factory CupertinoPickerSelectionOverlay.inline() {
-    return const CupertinoPickerSelectionOverlay(
-      margin: EdgeInsets.zero,
-      borderRadius: BorderRadius.zero,
-    );
-  }
-
-  factory CupertinoPickerSelectionOverlay.inlineLeftSide() {
-    return const CupertinoPickerSelectionOverlay(
-      margin: EdgeInsets.zero,
-      borderRadius: BorderRadiusDirectional.horizontal(
-        start: Radius.circular(_defaultSelectionOverlayRadius),
-      ),
-    );
-  }
-
-  factory CupertinoPickerSelectionOverlay.inlineRightSide() {
-    return const CupertinoPickerSelectionOverlay(
-      margin: EdgeInsets.zero,
-      borderRadius: BorderRadiusDirectional.horizontal(
-        end: Radius.circular(_defaultSelectionOverlayRadius),
-      ),
-    );
-  }
-
 }

@@ -1,6 +1,6 @@
 name: horology
 description: "Time Widgets"
-publish_to: 'none'
+repository: "https://github.com/astorDev/horology"
 version: 1.0.0+1
 
 environment:
