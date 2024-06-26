@@ -43,18 +43,12 @@ class MyApp extends StatelessWidget {
                   const SizedBox(width: 20),
                   SizedBox(
                     height: 50,
-                    //width: 280,
                     child: CupertinoDateTimePicker(
+                      initialDateTime: DateTime.now().add(Duration(days: -1)),
                       onSelectionChanged: (value) {
                         print(value);
                       },
                     ),
-                    // child: CupertinoDatePicker(
-                    //   mode: CupertinoDatePickerMode.dateAndTime,
-                    //   onDateTimeChanged: (value) {
-                    //     print(value);
-                    //   },
-                    // )
                   ),
                 ],
               ),

@@ -14,7 +14,6 @@ class CupertinoDateTimePicker extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var zeroDateTime = initialDateTime ?? DateTime.now();
-    var zeroIsToday = initialDateTime == null;
 
     int hourFromIndex(int index) => (zeroDateTime.hour + index) % 24;
     int minuteFromIndex(int index) => (zeroDateTime.minute + index) % 60;
@@ -39,11 +38,13 @@ class CupertinoDateTimePicker extends StatelessWidget {
           width: 130, 
           itemTextBuilder: (context, index) {
             var localization = CupertinoLocalizations.of(context);
-      
-            if (zeroIsToday && index == 0) return localization.todayLabel;
-            
             var selectedDate = zeroDateTime.add(Duration(days: index));
-            return localization.datePickerMediumDate(selectedDate);
+            var selectedDateString = localization.datePickerMediumDate(selectedDate);
+            var nowDateString = localization.datePickerMediumDate(DateTime.now());
+      
+            if (selectedDateString == nowDateString) return localization.todayLabel;
+            
+            return selectedDateString;
           },
         ),
         CupertinoPickerLineItemData(
