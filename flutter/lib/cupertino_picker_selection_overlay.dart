@@ -1,20 +1,19 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class CupertinoPickerSelectionOverlay extends StatelessWidget {
   final EdgeInsetsGeometry margin;
   final BorderRadiusGeometry borderRadius;
   final Color background;
-  static const double _defaultSelectionOverlayHorizontalMargin = 9;
+  final BoxBorder? border;
   static const double _defaultSelectionOverlayRadius = 8;
   
   const CupertinoPickerSelectionOverlay({
     super.key,
     this.background = CupertinoColors.tertiarySystemFill,
-    this.margin = const EdgeInsets.symmetric(horizontal: _defaultSelectionOverlayHorizontalMargin),
-    this.borderRadius = const BorderRadiusDirectional.horizontal(
-      start: Radius.circular(_defaultSelectionOverlayRadius),
-      end: Radius.circular(_defaultSelectionOverlayRadius),
-    ),
+    this.margin = const EdgeInsets.all(0),
+    this.borderRadius = const BorderRadius.all(Radius.zero),
+    this.border
   });  
 
   @override
@@ -23,33 +22,37 @@ class CupertinoPickerSelectionOverlay extends StatelessWidget {
       margin: margin,
       decoration: BoxDecoration(
         borderRadius: borderRadius,
+        border: border,
         color: CupertinoDynamicColor.resolve(background, context),
       ),
     );
   }
 
-  factory CupertinoPickerSelectionOverlay.inline() {
+  factory CupertinoPickerSelectionOverlay.roundedLeftSide() {
     return const CupertinoPickerSelectionOverlay(
-      margin: EdgeInsets.zero,
-      borderRadius: BorderRadius.zero,
-    );
-  }
-
-  factory CupertinoPickerSelectionOverlay.inlineLeftSide() {
-    return const CupertinoPickerSelectionOverlay(
-      margin: EdgeInsets.zero,
       borderRadius: BorderRadiusDirectional.horizontal(
         start: Radius.circular(_defaultSelectionOverlayRadius),
       ),
     );
   }
 
-  factory CupertinoPickerSelectionOverlay.inlineRightSide() {
+  factory CupertinoPickerSelectionOverlay.roundedRightSide() {
     return const CupertinoPickerSelectionOverlay(
-      margin: EdgeInsets.zero,
       borderRadius: BorderRadiusDirectional.horizontal(
         end: Radius.circular(_defaultSelectionOverlayRadius),
       ),
+    );
+  }
+
+  factory CupertinoPickerSelectionOverlay.underline({ double width = 0.5 }) {
+    return CupertinoPickerSelectionOverlay(
+      background: Colors.transparent,
+      border: Border(
+        bottom: BorderSide(
+          width: width,
+        ),
+      ),
+      borderRadius: BorderRadius.zero
     );
   }
 }

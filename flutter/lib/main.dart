@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:horology/built_in_case.dart';
 import 'package:horology/main_case.dart';
+import 'package:horology/material_case.dart';
 
 void main() {
   runApp(const HorologyPlaygroundApp());
@@ -55,6 +56,10 @@ class _HorologyPlaygroundPageState extends State<HorologyPlaygroundPage> {
               icon: const Text('🥱'),
               label: 'Built-in',
             ),
+            NavigationDestination(
+              icon: const Text('🪨'), 
+              label: 'Material'
+            )
           ],
         ),
       ),
@@ -65,6 +70,7 @@ class _HorologyPlaygroundPageState extends State<HorologyPlaygroundPage> {
           builder: (context, pageIndex, _) {
             if (pageIndex == 0) return MainCase();
             if (pageIndex == 1) return BuiltInCase();
+            if (pageIndex == 2) return MaterialCase();
             
             throw Exception('Invalid page index');
           }

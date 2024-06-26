@@ -4,11 +4,13 @@ import 'package:horology/cupertino_picker_line.dart';
 class CupertinoDateTimePicker extends StatelessWidget {
   final Function(DateTime)? onSelectionChanged;
   final DateTime? initialDateTime;
+  final Widget Function(BuildContext, SelectionOverlayPosition)? selectionOverlayBuilder;
 
   const CupertinoDateTimePicker({
     super.key,
     this.onSelectionChanged,
-    this.initialDateTime
+    this.initialDateTime,
+    this.selectionOverlayBuilder,
   });
   
   @override
@@ -19,6 +21,7 @@ class CupertinoDateTimePicker extends StatelessWidget {
     int minuteFromIndex(int index) => (zeroDateTime.minute + index) % 60;
 
     return CupertinoPickerLine(
+      selectionOverlayBuilder: selectionOverlayBuilder,
       onSelectionChanged: (indexes) {
         var selectedDateOnly = zeroDateTime.add(Duration(days: indexes[0]));
         var selectedHour = hourFromIndex(indexes[1]);

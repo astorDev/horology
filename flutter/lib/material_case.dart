@@ -1,7 +1,8 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:horology/cupertino.dart';
 
-class BuiltInCase extends StatelessWidget {
-  const BuiltInCase({
+class MaterialCase extends StatelessWidget {
+  const MaterialCase({
     super.key,
   });
 
@@ -9,25 +10,32 @@ class BuiltInCase extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
           children: [
             const Text('😎'),
             const SizedBox(width: 20),
-            Expanded(child: CupertinoTextField()),
+            Expanded(child: TextField(
+              decoration: InputDecoration(
+                isDense: true,
+                labelText: 'Just a reference text field.',
+              ),
+            )),
           ],
         ),
         const SizedBox(height: 20),
         Row(
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             const Text('🕒'),
             const SizedBox(width: 20),
             SizedBox(
-              width: 290,
               height: 50,
-              child: CupertinoDatePicker(
+              child: CupertinoDateTimePicker(
+                selectionOverlayBuilder: (context, position) => CupertinoPickerSelectionOverlay.underline(),
                 initialDateTime: DateTime.now().add(Duration(days: -1)),
-                onDateTimeChanged: (value) {
+                onSelectionChanged: (value) {
                   print(value);
                 },
               ),
