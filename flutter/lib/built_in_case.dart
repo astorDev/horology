@@ -23,7 +23,7 @@ class BuiltInCase extends StatelessWidget {
             const Text('🕒'),
             const SizedBox(width: 20),
             SizedBox(
-              width: 280,
+              width: 290,
               height: 50,
               child: CupertinoDatePicker(
                 initialDateTime: DateTime.now().add(Duration(days: -1)),
