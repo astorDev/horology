@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:horology/cupertino.dart';
 
@@ -34,18 +33,7 @@ class MaterialCase extends StatelessWidget {
             SizedBox(
               height: 50,
               child: CupertinoDateTimePicker(
-                selectionOverlayBuilder: (context, position) {
-                    return CupertinoPickerSelectionOverlay(
-                      background: Colors.transparent,
-                      border: Border(
-                        bottom: BorderSide(
-                          //color: CupertinoDynamicColor.resolve(CupertinoColors.systemBlue, context),
-                          width: 0.5,
-                        ),
-                      ),
-                      borderRadius: BorderRadius.zero
-                    );
-                },
+                selectionOverlayBuilder: (context, position) => CupertinoPickerSelectionOverlay.underline(),
                 initialDateTime: DateTime.now().add(Duration(days: -1)),
                 onSelectionChanged: (value) {
                   print(value);

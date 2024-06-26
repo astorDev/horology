@@ -43,4 +43,16 @@ class CupertinoPickerSelectionOverlay extends StatelessWidget {
       ),
     );
   }
+
+  factory CupertinoPickerSelectionOverlay.underline({ double width = 0.5 }) {
+    return CupertinoPickerSelectionOverlay(
+      background: Colors.transparent,
+      border: Border(
+        bottom: BorderSide(
+          width: width,
+        ),
+      ),
+      borderRadius: BorderRadius.zero
+    );
+  }
 }
