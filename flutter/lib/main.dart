@@ -15,8 +15,7 @@ class HorologyPlaygroundApp extends StatelessWidget {
     return MaterialApp(
       title: 'Horology Playground',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+      theme: ThemeData.dark(
         useMaterial3: true,
       ),
       home: const HorologyPlaygroundPage(),

@@ -33,7 +33,7 @@ class MaterialCase extends StatelessWidget {
             SizedBox(
               height: 50,
               child: CupertinoDateTimePicker(
-                selectionOverlayBuilder: (context, position) => CupertinoPickerSelectionOverlay.underline(),
+                selectionOverlayBuilder: (context, position) => CupertinoPickerSelectionOverlay.underline(context: context),
                 initialDateTime: DateTime.now().add(Duration(days: -1)),
                 onSelectionChanged: (value) {
                   print(value);

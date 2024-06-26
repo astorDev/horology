@@ -44,15 +44,20 @@ class CupertinoPickerSelectionOverlay extends StatelessWidget {
     );
   }
 
-  factory CupertinoPickerSelectionOverlay.underline({ double width = 0.5 }) {
+  factory CupertinoPickerSelectionOverlay.underline({ BuildContext? context, double width = 1, Color? color }) {
+    var underlineColor = color ??  themeUnderlineColor(context) ?? Color(0xFF000000);
+
     return CupertinoPickerSelectionOverlay(
       background: Colors.transparent,
       border: Border(
         bottom: BorderSide(
           width: width,
+          color: underlineColor,
         ),
       ),
       borderRadius: BorderRadius.zero
     );
   }
+
+  static Color? themeUnderlineColor(BuildContext? context) => context == null ? null : Theme.of(context).colorScheme.onSurface.withOpacity(0.55);
 }
