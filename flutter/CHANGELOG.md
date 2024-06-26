@@ -10,3 +10,8 @@ Initial Package with `CupertinoDateTimePicker`.
     - Added `border` parameter
     - Changed default margin and rounding to zero
     - Added `CupertinoPickerSelectionOverlay.underline` option
+
+# 1.1.1+1
+
+- `CupertinoPickerSelectionOverlay.underline`
+    - Added support for passing `BuildContext` or `Color` for the underline color
