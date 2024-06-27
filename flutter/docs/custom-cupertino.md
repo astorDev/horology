@@ -11,7 +11,7 @@ status: draft
 
 ## Playing with the Picker
 
-Let's say we have a form with a simple text field row and the date picker row:
+Let's say we have a form with a simple text field row and a date picker row:
 
 ```dart
 class CupertinoReferenceTextFieldRow extends StatelessWidget {
@@ -98,7 +98,7 @@ CupertinoDatePicker CupertinoDatePicker({
 ```
 
 
-Unfortunatelly, `CupertinoDatePicker` gives practically no way to customize it's look. The only thing we can do is to change `backgroundColor` and `itemExtent`, which is not something we were looking for. Why the widget has margins anyway? Well, we'll need to dive a little bit deeper. `CupertinoDatePicker` is essentially a set of `CupertinoPicker`s. Let's put a simple `CupertinoPicker` instead of the `CupertinoDatePicker` and see what we'll get
+Unfortunately, `CupertinoDatePicker` gives practically no way to customize its look. The only thing we can do is to change `backgroundColor` and `itemExtent`, which is not something we were looking for. Why does the widget have margins anyway? Well, we'll need to dive a little bit deeper. `CupertinoDatePicker` is essentially a set of `CupertinoPicker`s. Let's put a simple `CupertinoPicker` instead of the `CupertinoDatePicker` and see what we'll get
 
 ```dart
 CupertinoPicker.builder(
@@ -110,7 +110,7 @@ CupertinoPicker.builder(
 
 ![](picker-default.png)
 
-Aha, it's also margined it exactly the same way. This time the picker, provides sligtly more opportunity for customization, in particular the `selectionOverlay` property. If we'll disable edges capping:
+Aha, it's also margined in exactly the same way. This time the picker, provides slightly more opportunity for customization, in particular the `selectionOverlay` property. If we disable edge capping:
 
 ```dart
 selectionOverlay: CupertinoPickerDefaultSelectionOverlay(
@@ -119,7 +119,7 @@ selectionOverlay: CupertinoPickerDefaultSelectionOverlay(
 ),
 ```
 
-We'll finally get our desired allignment:
+We'll finally get our desired alignment:
 
 ![](picker-decap.png)
 
@@ -148,7 +148,7 @@ Widget build(BuildContext context) {
 
 ## Customizing SelectionOverlay
 
-Fortunatelly, the selection overlay code is trivial and `selectionOverlay` property accepts any `Widget`. So we can create our own more fluent version. Let's call it just `CupertinoPickerSelectionOverlay`:
+Fortunately, the selection overlay code is trivial, and the `selectionOverlay` property accepts any `Widget`. So we can create our own more fluent version. Let's call it just `CupertinoPickerSelectionOverlay`:
 
 ```dart
 import 'package:flutter/cupertino.dart';
@@ -197,7 +197,7 @@ We'll finally achieve the version we need:
 
 ## Preparing the assembly line
 
-Well, the date time picker is not a picker, but a set of pickers. We essentially have 3 pickers, where the first one have its left side rounded, the second one have strict side, and the third one has its right side rounded. Let's first create helper factories in `CupertinoPickerSelectionOverlay`:
+Well, the date-time picker is not a picker, but a set of pickers. We essentially have 3 pickers, where the first one has its left side rounded, the second one has strict sides, and the third one has its right side rounded. Let's first create helper factories in `CupertinoPickerSelectionOverlay`:
 
 ```dart
 factory CupertinoPickerSelectionOverlay.roundedLeftSide() {
@@ -217,7 +217,7 @@ factory CupertinoPickerSelectionOverlay.roundedRightSide() {
 }
 ```
 
-Let's first create a widget, allowing us to assemble pickers in a single line. The line's `selectionOverlay` should be drawn based on the `SelectionOverlayPosition` in the manner we've discussed earlier, essentially:
+Let's first create a widget allowing us to assemble pickers in a single line. The line's `selectionOverlay` should be drawn based on the `SelectionOverlayPosition` in the manner we've discussed earlier, essentially:
 
 ```dart
 Widget _buildInlineSelectionOverlay(BuildContext context) =>
@@ -233,7 +233,7 @@ Widget _buildRightEdgeSelectionOverlay(BuildContext context) =>
     CupertinoPickerSelectionOverlay.roundedRightSide();
 ```
 
-The widget should also store selection index for each of the pickers. On a change the whole set should be presented to a parent widget (in our case that would help to get selected date, hour, and minute). This is a simple code to implement that:
+The widget should also store a selected index for each of the pickers. On a change, the whole set should be presented to a parent widget (in our case that would help to get the selected date, hour, and minute). This is a simple code to implement this:
 
 ```dart
 var selectedIndexes = List.generate(itemsData.length, (index) => 0);
@@ -245,7 +245,7 @@ onSelectedItemChanged: (index) {
 }
 ```
 
-Putting it together and allowing customizations of `itemExtent`, item's `width` and `height` we'll get this code:
+Putting it together and allowing customizations of `itemExtent`, item's `width`, and `height` we'll get this code:
 
 ```dart
 import 'package:flutter/cupertino.dart';
@@ -350,7 +350,7 @@ And this is what we can assemble using that line:
 
 ## The Final Touch
 
-The `CupertinoPickerLine` already covers most of the logic we need to create our date time picker. The most fancy logic we have is bridging picker selection index to the actual date time. We'll need to convert from how much we moved from the initial value to the actual value, having in mind that our clock is circular so moving 80 minutes is as moving on 80 minutes. All this comes down to this code:
+The `CupertinoPickerLine` already covers most of the logic we need to create our date time picker. The most fancy logic we have is bridging the picker selection index to the actual date time. We'll need to convert how much we moved from the initial value to the actual value, keeping in mind that our clock is circular so moving 80 minutes is as moving on 80 minutes. All this comes down to this code:
 
 ```dart
 var zeroDateTime = initialDateTime ?? DateTime.now();
@@ -370,7 +370,7 @@ var selected = DateTime(
 );
 ```
 
-One more cherry on top is how we render the picker date, including showing "Today" for current date:
+One more cherry on top is how we render the picker date, including showing "Today" for the current date:
 
 ```dart
 var localization = CupertinoLocalizations.of(context);
@@ -383,7 +383,7 @@ if (selectedDateString == nowDateString) return localization.todayLabel;
 return selectedDateString;
 ```
 
-Finally, let's pack all this up in a single widget. Fortunatelly, `CupertinoDateTimePicker` (which is more precise name in my view) is not occupied, so, let's just use it:
+Finally, let's pack all this up in a single widget. Fortunately, `CupertinoDateTimePicker` (which is a more precise name in my view) is not occupied, so, let's just use it:
 
 ```dart
 import 'package:flutter/cupertino.dart';
@@ -461,7 +461,7 @@ class CupertinoDateTimePicker extends StatelessWidget {
 }
 ```
 
-Using our updated date time picker is even simpler then the built-in one. Here's how the field row code look like now:
+Using our updated date time picker is even simpler than the built-in one. Here's what the field row code looks like now:
 
 ```dart
 Row(
