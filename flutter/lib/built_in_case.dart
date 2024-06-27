@@ -114,24 +114,3 @@ class PickerDecap extends StatelessWidget {
     );
   }
 }
-
-class BuiltInCase2 extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        const Text('😎'),
-        const SizedBox(width: 20),
-        Expanded(
-          child: CupertinoDatePicker(
-            initialDateTime: DateTime.now(),
-            onDateTimeChanged: (value) {
-              print(value);
-            },
-          ),
-        ),
-      ],
-    );
-  }
-
-}
