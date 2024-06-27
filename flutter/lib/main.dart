@@ -3,6 +3,8 @@ import 'package:horology/built_in_case.dart';
 import 'package:horology/main_case.dart';
 import 'package:horology/material_case.dart';
 
+ValueNotifier<ThemeMode> themeMode = ValueNotifier(ThemeMode.light);
+
 void main() {
   runApp(const HorologyPlaygroundApp());
 }
@@ -12,13 +14,19 @@ class HorologyPlaygroundApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Horology Playground',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData.dark(
-        useMaterial3: true,
+    return ValueListenableBuilder(
+      valueListenable: themeMode,
+      builder: (context, themeMode, _) => MaterialApp(
+        title: 'Horology Playground',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          useMaterial3: true,
+        ),
+        darkTheme: ThemeData.dark(),
+        themeMode: themeMode,
+        home: const HorologyPlaygroundPage(),
       ),
-      home: const HorologyPlaygroundPage(),
     );
   }
 }
@@ -40,6 +48,14 @@ class _HorologyPlaygroundPageState extends State<HorologyPlaygroundPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Horology'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.brightness_4_sharp),
+            onPressed: () {
+              themeMode.value = themeMode.value == ThemeMode.light ? ThemeMode.dark : ThemeMode.light;
+            },
+          ),
+        ],
       ),
       bottomNavigationBar: ValueListenableBuilder(
         valueListenable: navigationBarIndex,
