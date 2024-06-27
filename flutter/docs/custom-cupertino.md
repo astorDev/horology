@@ -1,6 +1,6 @@
 ---
 type: article
-status: draft
+status: complete
 ---
 
 # Customizing CupertinoDatePicker in Flutter
@@ -350,7 +350,7 @@ And this is what we can assemble using that line:
 
 ## The Final Touch
 
-The `CupertinoPickerLine` already covers most of the logic we need to create our date time picker. The most fancy logic we have left is bridging the picker selection index to the actual date time. We'll need to convert distance from initial value (index) to the actual value.
+The `CupertinoPickerLine` already covers most of the logic we need to create our date time picker. The most fancy logic we have left is bridging the picker selection index to the actual date time. We'll need to convert the distance from the initial value (index) to the actual value.
 
 > The logic keeps in mind that our clock is circular e.g. moving 80 minutes away produces the same result as moving 20 minutes away.
 
@@ -372,7 +372,7 @@ var selected = DateTime(
 );
 ```
 
-One more cherry on top fancy logic is the logic of rendering the picker date. Which includes showing "Today" for the current date:
+One more cherry on top of fancy logic is the logic of rendering the picker date. Which includes showing "Today" for the current date:
 
 ```dart
 var localization = CupertinoLocalizations.of(context);
