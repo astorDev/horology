@@ -5,12 +5,14 @@ class CupertinoDateTimePicker extends StatelessWidget {
   final Function(DateTime)? onSelectionChanged;
   final DateTime? initialDateTime;
   final Widget Function(BuildContext, SelectionOverlayPosition)? selectionOverlayBuilder;
+  final double height;
 
   const CupertinoDateTimePicker({
     super.key,
     this.onSelectionChanged,
     this.initialDateTime,
     this.selectionOverlayBuilder,
+    this.height = 50,
   });
   
   @override
@@ -21,6 +23,7 @@ class CupertinoDateTimePicker extends StatelessWidget {
     int minuteFromIndex(int index) => (zeroDateTime.minute + index) % 60;
 
     return CupertinoPickerLine(
+      height: height,
       selectionOverlayBuilder: selectionOverlayBuilder,
       onSelectionChanged: (indexes) {
         var selectedDateOnly = zeroDateTime.add(Duration(days: indexes[0]));

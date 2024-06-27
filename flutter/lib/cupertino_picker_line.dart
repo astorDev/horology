@@ -1,6 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:horology/cupertino_picker_selection_overlay.dart';
 
 enum SelectionOverlayPosition {
@@ -43,6 +41,7 @@ class CupertinoPickerLine extends StatelessWidget {
       children.add(
         SizedBox(
           width: item.width,
+          height: height,
           child: CupertinoPicker.builder(
             itemExtent: itemExtent,
             onSelectedItemChanged: (index) {
@@ -65,39 +64,23 @@ class CupertinoPickerLine extends StatelessWidget {
     );
   }
 
-  Widget _buildInlineSelectionOverlay(BuildContext context) {
-    if (selectionOverlayBuilder != null) {
-      return selectionOverlayBuilder!(context, SelectionOverlayPosition.inline);
-    }
+  Widget _buildInlineSelectionOverlay(BuildContext context) =>
+      selectionOverlayBuilder?.call(context, SelectionOverlayPosition.inline) ??
+      CupertinoPickerSelectionOverlay();
 
-    return CupertinoPickerSelectionOverlay();
-  }
-
-  Widget _buildLeftEdgeSelectionOverlay(BuildContext context) {
-    if (selectionOverlayBuilder != null) {
-      return selectionOverlayBuilder!(context, SelectionOverlayPosition.leftEdge);
-    }
-
-    return CupertinoPickerSelectionOverlay.roundedLeftSide();
-  }
+  Widget _buildLeftEdgeSelectionOverlay(BuildContext context) =>
+      selectionOverlayBuilder?.call(context, SelectionOverlayPosition.leftEdge) ??
+      CupertinoPickerSelectionOverlay.roundedLeftSide();
   
-  Widget _buildRightEdgeSelectionOverlay(BuildContext context) {
-    if (selectionOverlayBuilder != null) {
-      return selectionOverlayBuilder!(context, SelectionOverlayPosition.rightEdge);
-    }
+  Widget _buildRightEdgeSelectionOverlay(BuildContext context) =>
+      selectionOverlayBuilder?.call(context, SelectionOverlayPosition.rightEdge) ??
+      CupertinoPickerSelectionOverlay.roundedRightSide();
 
-    return CupertinoPickerSelectionOverlay.roundedRightSide();
-  }
-
-  Widget _buildItem(BuildContext context, String data) {
-    if (itemBuilder != null) {
-      return itemBuilder!(context, data);
-    }
-
-    return Center(
-      child: Text(data),
-    );
-  }
+  Widget _buildItem(BuildContext context, String data) =>
+      itemBuilder?.call(context, data) ??
+      Center(
+        child: Text(data),
+      );
 }
 
 class CupertinoPickerLineItemData {

@@ -1,38 +1,114 @@
 import 'package:flutter/cupertino.dart';
 
 class BuiltInCase extends StatelessWidget {
-  const BuiltInCase({
-    super.key,
-  });
-
   @override
   Widget build(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Row(
-          children: [
-            const Text('😎'),
-            const SizedBox(width: 20),
-            Expanded(child: CupertinoTextField()),
-          ],
-        ),
+        CupertinoReferenceTextFieldRow(),
         const SizedBox(height: 20),
-        Row(
-          children: [
-            const Text('🕒'),
-            const SizedBox(width: 20),
-            SizedBox(
-              width: 290,
-              height: 50,
-              child: CupertinoDatePicker(
-                initialDateTime: DateTime.now().add(Duration(days: -1)),
-                onDateTimeChanged: (value) {
-                  print(value);
-                },
-              ),
+        DatePickerRow(),
+        //PickerDefault()
+        //PickerDecap()
+      ],
+    );
+  }
+}
+
+class CupertinoReferenceTextFieldRow extends StatelessWidget {
+  const CupertinoReferenceTextFieldRow({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        const Text('😎'),
+        const SizedBox(width: 20),
+        Expanded(child: CupertinoTextField(
+          placeholder: 'Just a reference text field',
+        )),
+      ],
+    );
+  }
+}
+
+class DatePickerRow extends StatelessWidget {
+  const DatePickerRow({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        const Text('🕒'),
+        const SizedBox(width: 20),
+        Expanded(
+          child: SizedBox(
+            height: 80,
+            child: CupertinoDatePicker(
+              onDateTimeChanged: (value) {},
             ),
-          ],
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class PickerDefault extends StatelessWidget {
+  const PickerDefault({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        const Text('🟡'),
+        const SizedBox(width: 20),
+        Expanded(
+          child: SizedBox(
+            height: 80,
+            child: CupertinoPicker.builder(
+              itemExtent: 30, 
+              onSelectedItemChanged: (_) {}, 
+              itemBuilder: (context, index) => Text('Item $index')
+            )
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class PickerDecap extends StatelessWidget {
+  const PickerDecap({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        const Text('🟨'),
+        const SizedBox(width: 20),
+        Expanded(
+          child: SizedBox(
+            height: 80,
+            child: CupertinoPicker.builder(
+              itemExtent: 30, 
+              selectionOverlay: CupertinoPickerDefaultSelectionOverlay(
+                capStartEdge: false,
+                capEndEdge: false,
+              ),
+              onSelectedItemChanged: (_) {}, 
+              itemBuilder: (context, index) => Text('Item $index')
+            )
+          ),
         ),
       ],
     );
