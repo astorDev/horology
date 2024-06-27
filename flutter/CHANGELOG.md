@@ -10,3 +10,7 @@ Initial Package with `CupertinoDateTimePicker`.
     - Added `border` parameter
     - Changed default margin and rounding to zero
     - Added `CupertinoPickerSelectionOverlay.underline` option
+
+# 1.2.0+1
+
+- `height` property

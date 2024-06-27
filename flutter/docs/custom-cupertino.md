@@ -5,13 +5,13 @@ status: draft
 
 # Customizing CupertinoDatePicker in Flutter
 
-`CupertinoDatePicker` is, perhaps, the most minimalistic date picker in Flutter, it not only plays nicely with other iOS-styled widgets but also looks pretty organic with material widgets. Notably, unlike material picker, it can be embedded directly in a form, without a modal window. In this article, we'll investigate different ways of using the `CupertinoDatePicker` ~~and create a better one~~.
+`CupertinoDatePicker` is, perhaps, the most minimalistic date picker in Flutter, it not only plays nicely with other iOS-styled widgets but also looks pretty organic with material widgets. Notably, unlike material picker, it can be embedded directly in a form, without a modal window. In this article, we'll investigate different ways of using the `CupertinoDatePicker` ...and create a better one.
 
 ![](custom-cupertino-thumb.png)
 
 ## Playing with the Picker
 
-Let's say we have a form with a simple text field row and a date picker row:
+Let's say we have a form with a text field and a date picker:
 
 ```dart
 class CupertinoReferenceTextFieldRow extends StatelessWidget {
@@ -75,7 +75,7 @@ Will give us the following form:
 
 ![](built-in-form.png)
 
-Although that form looks good enough, the fact that it is not aligned by the left side is pretty annoying. Let's figure out what we can do to tune that:
+Although that form looks good enough, the fact that it is not aligned by the left side is pretty annoying. Let's figure out what we can do to tune that, studying `CupertinoDatePicker` constructor:
 
 
 ```dart
@@ -350,7 +350,9 @@ And this is what we can assemble using that line:
 
 ## The Final Touch
 
-The `CupertinoPickerLine` already covers most of the logic we need to create our date time picker. The most fancy logic we have is bridging the picker selection index to the actual date time. We'll need to convert how much we moved from the initial value to the actual value, keeping in mind that our clock is circular so moving 80 minutes is as moving on 80 minutes. All this comes down to this code:
+The `CupertinoPickerLine` already covers most of the logic we need to create our date time picker. The most fancy logic we have left is bridging the picker selection index to the actual date time. We'll need to convert distance from initial value (index) to the actual value.
+
+> The logic keeps in mind that our clock is circular e.g. moving 80 minutes away produces the same result as moving 20 minutes away.
 
 ```dart
 var zeroDateTime = initialDateTime ?? DateTime.now();
@@ -370,7 +372,7 @@ var selected = DateTime(
 );
 ```
 
-One more cherry on top is how we render the picker date, including showing "Today" for the current date:
+One more cherry on top fancy logic is the logic of rendering the picker date. Which includes showing "Today" for the current date:
 
 ```dart
 var localization = CupertinoLocalizations.of(context);
@@ -383,7 +385,7 @@ if (selectedDateString == nowDateString) return localization.todayLabel;
 return selectedDateString;
 ```
 
-Finally, let's pack all this up in a single widget. Fortunately, `CupertinoDateTimePicker` (which is a more precise name in my view) is not occupied, so, let's just use it:
+Okay, let's pack it up in a widget. What could we name it? Fortunately, `CupertinoDateTimePicker` (which is a more precise name in my view) is not occupied by the built-in flutter libraries, so, let's just use it:
 
 ```dart
 import 'package:flutter/cupertino.dart';
@@ -480,7 +482,7 @@ Row(
 );
 ```
 
-And finally here's our updated aligned look:
+And finally here's our fresh, aligned look:
 
 ![](main-form.png)
 
